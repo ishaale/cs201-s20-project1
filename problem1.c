@@ -1,6 +1,24 @@
+/*
+ *This program that finds locations of all the genes encoding Threonine
+ *Author: Elisha Ishaal
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+int checkString(char *str){
+	int check = 1;
+    for(int i = 0; i < strlen(str); i++){
+		if(str[i] != 65 && str[i] != 67 && str[i] != 71 && str[i] != 84){
+			//CHECK TO SEE IF THE INPUT CHARS ARE EQUAL TO THE
+			//ASCII REPRESENTATION OF ACGT
+			check = -1;
+			break;
+		}
+	}
+	return check;
+}
 
 int main() {
 
@@ -8,18 +26,28 @@ int main() {
 
 	char * threons[4] = {"ACT", "ACC", "ACA", "ACG"};
 
-	printf("Enter the DNA sequecen: ");
+	printf("Enter the DNA sequence: ");
 	//read up to 9999 characters
 	scanf("%9999s", dna);
 
+	if(checkString(dna) == -1){
+		//CHECK IF STRING IS VALID
+		printf("%d", -1);
+		return 0;
+	}
 
+	if(strlen(dna) < 3){
+		//CHECK IF STRING IS AT LEAST LENGTH THREE
+		printf("%d", -2);
+		return 0;
+	}
 
-	/*
-	TODO: add your code here (or in the additional
-	functions that are called from here).
-	*/
-
-
+	for(int i = 0; i < strlen(dna); i+=3){
+		if(dna[i] == 65 && dna[i+1] == 67){
+			//IF SUBSTRING BEGINS WITH AC, THEN IT CODES FOR THREON
+			printf("%d\n", i);
+		}
+	}
 	return 0;
 
 }
