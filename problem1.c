@@ -26,7 +26,7 @@ int main() {
 
 	char * threons[4] = {"ACT", "ACC", "ACA", "ACG"};
 
-	printf("Enter the DNA sequence: ");
+	printf("Enter the DNA sequecen: ");
 	//read up to 9999 characters
 	scanf("%9999s", dna);
 
@@ -36,18 +36,18 @@ int main() {
 		return 0;
 	}
 
-	if(strlen(dna) < 3){
-		//CHECK IF STRING IS AT LEAST LENGTH THREE
-		printf("%d", -2);
-		return 0;
-	}
-
+	int count = 0;//count number of triples
 	for(int i = 0; i < strlen(dna); i+=3){
 		if(dna[i] == 65 && dna[i+1] == 67){
 			//IF SUBSTRING BEGINS WITH AC, THEN IT CODES FOR THREON
 			printf("%d\n", i);
+			count++;
 		}
 	}
+
+	//If string does not contain code for threon
+	if(count == 0) printf("%d", -2);
+
 	return 0;
 
 }
