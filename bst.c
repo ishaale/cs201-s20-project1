@@ -8,30 +8,54 @@
 
 
 void add ( bst_node ** root, char * word ) {
-    if ((*root) == 0){
-        struct bst_node *n = (struct bst_node *)malloc(sizeof(struct bst_node));
-        n->data = word;
+    //if pointer to root is empty then return
+    if (root == 0) return;
+    //if node is empty, add to the node
+    if (*root == 0){
+        (*root) = (bst_node *)malloc(sizeof(bst_node));
+        (*root)->data = word;
+        (*root)->left = NULL;
+        (*root)-> right = NULL;
+        return;
     }
-    if (strcmp(word, (*root)->data) < 0) add((*root)->left, word);
-    else add((*root)->right, word);
+
+    //printf("   %s,  %s", (*root)->data, word);
+
+    //if word precedes root, add to empty left child
+    if (strcmp(word, (*root)->data) < 0) add(&((*root)->left), word);
+
+    //if root precedes word, add to empty right child
+    else if (strcmp(word, (*root)->data) > 0) add(&((*root)->right), word);
+
+    //if they are the same word, return
+    else return;
+
 }
 
 
 void inorder ( bst_node * root ) {
     if(root == 0) return;
+
+    //print left
     inorder(root -> left);
-    printf("%s", root -> data);
-    inorder(root -> left);
+
+    //print parent
+    printf("%s ", root -> data);
+
+    //print right
+    inorder(root -> right);
 }
+
 
 char * removeSmallest (  bst_node ** root ){
     struct bst_node* n;
     if ((*root) != 0 ){
-        if((*root)->left->left == 0){
-            n = (*root)->left;
+        if((*root)->left == 0){
+            n = (*root);
             char* word = n->data;
-            (*root)->left = (*root)->left->right;
+            (*root) = (*root)->right;
             free(n);
+            n = NULL;
             return word;
         }
         else{
@@ -45,11 +69,12 @@ char * removeSmallest (  bst_node ** root ){
 char * removeLargest (  bst_node ** root ){
     struct bst_node* n;
     if ((*root) != 0 ){
-        if((*root)->right->right == 0){
-            n = (*root)->right;
+        if((*root)->right == 0){
+            n = (*root);
             char* word = n->data;
-            (*root)->right = (*root)->right->left;
+            (*root) = (*root)->left;
             free(n);
+            n = NULL;
             return word;
         }
         else{

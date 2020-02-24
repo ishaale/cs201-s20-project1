@@ -18,9 +18,9 @@ int main(){
     int j = 0;
     while (n > 0) {
         binary[j] = n % 2;
+    }
         n = n / 2;
         j++;
-    }
 
     //split into two different binary arrays
     int abin[32];
