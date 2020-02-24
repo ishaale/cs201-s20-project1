@@ -10,7 +10,7 @@
 void add ( bst_node ** root, char * word ) {
     //if pointer to root is empty then return
     if (root == 0) return;
-    //if node is empty, add to the node
+    //if tree is empty, add to the tree
     if (*root == 0){
         (*root) = (bst_node *)malloc(sizeof(bst_node));
         (*root)->data = word;
@@ -21,14 +21,11 @@ void add ( bst_node ** root, char * word ) {
 
     //printf("   %s,  %s", (*root)->data, word);
 
-    //if word precedes root, add to empty left child
-    if (strcmp(word, (*root)->data) < 0) add(&((*root)->left), word);
+    //if word precedes or equal to root, add to empty left child
+    if (strcmp(word, (*root)->data) <= 0) add(&((*root)->left), word);
 
     //if root precedes word, add to empty right child
-    else if (strcmp(word, (*root)->data) > 0) add(&((*root)->right), word);
-
-    //if they are the same word, return
-    else return;
+    else add(&((*root)->right), word);
 
 }
 
@@ -46,14 +43,15 @@ void inorder ( bst_node * root ) {
     inorder(root -> right);
 }
 
-
 char * removeSmallest (  bst_node ** root ){
-    struct bst_node* n;
-    if ((*root) != 0 ){
-        if((*root)->left == 0){
-            n = (*root);
+    if ((*root) != NULL ){
+        if((*root)->left == NULL){
+            //create copy of pointer to delete and whose value to return
+            bst_node *n = (*root);
             char* word = n->data;
+            //set the current node to its right child if it exists
             (*root) = (*root)->right;
+            //delete and return min
             free(n);
             n = NULL;
             return word;
@@ -67,12 +65,14 @@ char * removeSmallest (  bst_node ** root ){
 
 
 char * removeLargest (  bst_node ** root ){
-    struct bst_node* n;
     if ((*root) != 0 ){
         if((*root)->right == 0){
-            n = (*root);
+            //create copy of pointer to delete and whose value to return
+            bst_node *n = (*root);
             char* word = n->data;
+            //set the current node to its left child if it exists
             (*root) = (*root)->left;
+            //delete and return max
             free(n);
             n = NULL;
             return word;
